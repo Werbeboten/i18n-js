@@ -525,7 +525,34 @@ I18n.currentLocale = function() {
   return (I18n.locale || I18n.defaultLocale);
 };
 
+I18n.add_translation = function(translation) {
+  I18n.translations = I18n.translations || {}
+  I18n.translations = I18n.deepmerge(I18n.translations, translation)
+}
+
+I18n.deepmerge = function(foo, bar) {
+  var merged = {};
+  for (var each in bar) {
+    if (foo.hasOwnProperty(each) && bar.hasOwnProperty(each)) {
+      if (typeof(foo[each]) == "object" && typeof(bar[each]) == "object") {
+        merged[each] = deepmerge(foo[each], bar[each]);
+      } else {
+        merged[each] = [foo[each], bar[each]];
+      }
+    } else if(bar.hasOwnProperty(each)) {
+      merged[each] = bar[each];
+    }
+  }
+  for (var each in foo) {
+    if (!(each in bar) && foo.hasOwnProperty(each)) {
+      merged[each] = foo[each];
+    }
+  }
+  return merged;
+}
+
 // shortcuts
 I18n.t = I18n.translate;
 I18n.l = I18n.localize;
 I18n.p = I18n.pluralize;
+I18n.a = I18n.add_translation;
