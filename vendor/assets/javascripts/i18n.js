@@ -535,7 +535,7 @@ I18n.deepmerge = function(foo, bar) {
   for (var each in bar) {
     if (foo.hasOwnProperty(each) && bar.hasOwnProperty(each)) {
       if (typeof(foo[each]) == "object" && typeof(bar[each]) == "object") {
-        merged[each] = deepmerge(foo[each], bar[each]);
+        merged[each] = I18n.deepmerge(foo[each], bar[each]);
       } else {
         merged[each] = [foo[each], bar[each]];
       }
