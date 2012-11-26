@@ -74,7 +74,7 @@ module SimplesIdeias
         options.reverse_merge!(:only => "*", :fallback => false)
         if options[:file] =~ ::I18n::INTERPOLATION_PATTERN
           [*options[:only]].each do |only|
-            segments.merge!(segments_per_locale(options[:file],only,options[:fallback]))
+            deep_merge! segments, segments_per_locale(options[:file],only,options[:fallback])
           end
         else
           result = segment_for_scope(options[:only])
