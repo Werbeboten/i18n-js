@@ -127,6 +127,15 @@ describe SimplesIdeias::I18n do
     File.should be_file(Rails.root.join("public/javascripts/bitsnpieces.js"))
   end
 
+  it "exports with multiple multiple only" do
+    set_config "multiple_only.yml"
+    SimplesIdeias::I18n.export!
+
+    File.should be_file(Rails.root.join("public/javascripts/multiple_only_de.js"))
+    File.should be_file(Rails.root.join("public/javascripts/multiple_only_en.js"))
+    File.should be_file(Rails.root.join("public/javascripts/multiple_only_fr.js"))
+  end
+
   it "filters translations using scope *.date.formats" do
     result = SimplesIdeias::I18n.filter(translations, "*.date.formats")
     result[:en][:date].keys.should == [:formats]

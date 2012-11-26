@@ -73,7 +73,9 @@ module SimplesIdeias
       config[:translations].each_with_object({}) do |options,segments|
         options.reverse_merge!(:only => "*", :fallback => false)
         if options[:file] =~ ::I18n::INTERPOLATION_PATTERN
-          segments.merge!(segments_per_locale(options[:file],options[:only],options[:fallback]))
+          [*options[:only]].each do |only|
+            segments.merge!(segments_per_locale(options[:file],only,options[:fallback]))
+          end
         else
           result = segment_for_scope(options[:only])
           segments[options[:file]] = result unless result.empty?
